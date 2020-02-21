@@ -1,6 +1,7 @@
-from selenium.common.exceptions import NoAlertPresentException  # в начале файла
+from selenium.common.exceptions import NoAlertPresentException
 from .base_page import BasePage
 from .locators import ProductPageLocators
+from .locators import BasePageLocators
 import time
 
 
@@ -22,3 +23,11 @@ class ProductPage(BasePage):
         price_item = self.browser.find_element(*ProductPageLocators.PRICE_ITEM)
         price_item_message = self.browser.find_element(*ProductPageLocators.PRICE_ITEM_MESSAGE)
         assert price_item.text == price_item_message.text, "Price item and price item message does not match"
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.PRODUCT_NAME_MESSAGE), \
+            "Success message is presented, but should not be (is_not_element_present)"
+
+    def should_not_be_success_message_by_is_disappeared(self):
+        assert self.is_disappeared(*ProductPageLocators.PRODUCT_NAME_MESSAGE), \
+            "Success message is presented, but should not be (is_disappeared)"
